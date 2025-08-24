@@ -1,36 +1,5 @@
-
-const games = [
-    {
-        id: '1', 
-        name: 'Space Invaders', 
-        image: 'https://via.placeholder.com/200x150.png?text=Space+Invaders', 
-        path: 'games/space-invaders/index.html' 
-    },
-    { 
-        id: '2', 
-        name: 'Pixel Run', 
-        image: 'https://via.placeholder.com/200x150.png?text=Pixel+Run', 
-        path: 'games/pixel-run/index.html' 
-    },
-    { 
-        id: '3', 
-        name: 'Cosmic Quest', 
-        image: 'https://via.placeholder.com/200x150.png?text=Cosmic+Quest', 
-        path: 'games/cosmic-quest/index.html' 
-    },
-    { 
-        id: '4', 
-        name: 'Pong', 
-        image: 'https://via.placeholder.com/200x150.png?text=Pong', 
-        path: 'games/pong/index.html' 
-    }
-];
-
-// ... (rest of your scripts.js code) ...
-
 document.addEventListener('DOMContentLoaded', () => {
-    const welcomeSection = document.getElementById('welcome-section');
-    const loginForm = document.getElementById('login-form');
+    // DOM Elements
     const dashboardSection = document.getElementById('dashboard-section');
     const gamesContainer = document.getElementById('games-container');
     const activePlayersList = document.getElementById('active-players-list');
@@ -38,11 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToDashboardBtn = document.getElementById('back-to-dashboard');
     const welcomeMessage = document.getElementById('welcome-message');
 
-    // This array acts as our mock database for games
+    // This array is your "database" for the games.
     const games = [
         { id: '1', name: 'Space Invaders', image: 'https://via.placeholder.com/200x150.png?text=Space+Invaders', path: 'games/space-invaders/index.html' },
         { id: '2', name: 'Pixel Run', image: 'https://via.placeholder.com/200x150.png?text=Pixel+Run', path: 'games/pixel-run/index.html' },
         { id: '3', name: 'Cosmic Quest', image: 'https://via.placeholder.com/200x150.png?text=Cosmic+Quest', path: 'games/cosmic-quest/index.html' }
+        // Add your new games here!
     ];
 
     // This array acts as our mock list of active players
@@ -75,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showSection('game-section');
         const playerContainer = document.getElementById('game-player-container');
         playerContainer.innerHTML = `<iframe src="${game.path}"></iframe>`;
-        updateActivePlayers(localStorage.getItem('username'), game.name);
+        updateActivePlayers('Anonymous', game.name); // Using a placeholder user
     }
 
     function updateActivePlayers(username, game) {
@@ -97,34 +67,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const username = document.getElementById('username').value;
-        if (username) {
-            localStorage.setItem('username', username);
-            initializeDashboard(username);
-        } else {
-            alert('Please enter a username.');
-        }
-    });
-
     backToDashboardBtn.addEventListener('click', () => {
         showSection('dashboard-section');
-        updateActivePlayers(localStorage.getItem('username'), 'Browsing Games');
+        updateActivePlayers('Anonymous', 'Browsing Games'); // Using a placeholder user
     });
 
-    function initializeDashboard(username) {
-        welcomeMessage.textContent = `Welcome, ${username}!`;
-        showSection('dashboard-section');
-        renderGames();
-        renderActivePlayers(mockActivePlayers);
-        updateActivePlayers(username, 'Browsing Games');
-    }
-
-    const storedUsername = localStorage.getItem('username');
-    if (storedUsername) {
-        initializeDashboard(storedUsername);
-    } else {
-        showSection('welcome-section');
-    }
+    // Directly initialize the dashboard when the page loads
+    renderGames();
+    renderActivePlayers(mockActivePlayers);
 });
